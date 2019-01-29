@@ -1,0 +1,110 @@
+a {
+    text-decoration: none;	
+}
+
+.frameTop {
+	width: 1903px;
+	height: 200px;
+	margin-top: 50px;
+}
+
+.img_1 {
+	margin-left: 450px;
+	float: left;
+}
+
+.form {
+	float: left;
+	margin-left: 200px;
+	margin-top: 150px;
+}
+
+.img_2 {
+	width: 30px;
+	height: 30px;
+	position: relative;
+	top: 148px;
+	left: 20px;
+}
+
+.f_ul {
+	width: 200px;
+	height: 100px;
+	position: absolute;
+	top: 185px;
+	left: 1200px;
+}
+
+.f_ul li {
+	list-style: none;
+	font-size: 20px;
+	float: left;
+	display: block;
+	margin-left: 20px;
+}
+
+.frameTwo {
+	width: 1000px;
+	height: 800px;
+	margin-top: 80px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.new_1 {
+	width: 450px;
+	height: 250px;
+	float: left;
+	margin-left: 30px;
+	text-indent: 10px;
+	line-height: 30px;
+}
+
+.top_1 {
+	width: 270px;
+	height: 30px;
+	float: left;
+	background: #FAFAFA;
+	box-shadow: 0px 0px 2px;
+	font-size: 17px;	
+}
+
+.top_2 {
+	text-align: right;
+	width: 170px;
+	height: 30px;
+	float: left;
+	margin-left: 7px;
+	background: #FAFAFA;
+	box-shadow: 0px 0px 2px;	
+	font-size: 17px;
+}
+
+.f_new_ul {
+	display: block;
+	width: 240px;
+	height: 200px;
+	margin-top: 10px;
+	margin-left: -18px;
+	float: left;
+}
+
+.f_new_u2 {
+	display: block;
+	width: 130px;
+	height: 200px;
+	margin-top: 10px;
+	margin-left: 0px;	
+	float: left;
+	list-style: none;
+}
+
+.frameThree {
+	width: 950px;
+	height: 300px;
+	margin-top: -250px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+	line-height: 30px;
+}

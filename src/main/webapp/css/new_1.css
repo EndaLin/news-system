@@ -1,0 +1,100 @@
+a {
+    text-decoration: none;	
+}
+
+.frameTop {
+	width: 1903px;
+	height: 200px;
+	margin-top: 50px;
+}
+
+.img_1 {
+	margin-left: 450px;
+	float: left;
+}
+
+.form {
+	float: left;
+	margin-left: 200px;
+	margin-top: 150px;
+}
+
+.img_2 {
+	width: 30px;
+	height: 30px;
+	position: relative;
+	top: 148px;
+	left: 20px;
+}
+
+.f_ul {
+	width: 200px;
+	height: 100px;
+	position: absolute;
+	top: 185px;
+	left: 1200px;
+}
+
+.f_ul li {
+	list-style: none;
+	font-size: 20px;
+	float: left;
+	display: block;
+	margin-left: 20px;
+}
+
+.frameTwo {
+	width: 900px;
+	height: 100px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 100px;
+}
+
+.frameTwo h3 {
+	text-align: center;
+	font-size: 25px;
+	letter-spacing: 3px;
+}
+
+.title {
+	display: block;
+	margin-left: 250px;
+	margin-top: 30px;
+	letter-spacing: 2px;
+}
+
+.frm {
+	position: absolute;
+	top: 1400px;
+	left: 600px;
+}
+
+#txt {
+	width: 600px;
+	margin-left: 30px;
+}
+
+.changePosition {
+	position: relative;
+	top: 60px;
+	left: -350px;
+}
+
+.frameThree {
+	width: 900px;
+	height: 300px;
+	position: absolute;
+	top: 2430px;
+	left: 500px;	
+}
+
+.creatDiv {
+	width: 600px;
+	height: 30px;
+	margin-Top: 10px;
+	margin-Left: 30px;
+	text-indent: 10px;
+	color: blue;
+	font-size: 20px;
+}

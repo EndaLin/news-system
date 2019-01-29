@@ -1,0 +1,72 @@
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+	<display-name>Archetype Created Web Application</display-name>
+	<servlet>
+		<servlet-name>VerifyCodeServlet</servlet-name>
+		<display-name>VerifyCodeServlet</display-name>
+		<description></description>
+		<servlet-class>servlet.CodeServlet</servlet-class>
+		<init-param>
+			<param-name>width</param-name>
+			<param-value>120</param-value>
+		</init-param>
+		<init-param>
+			<param-name>height</param-name>
+			<param-value>32</param-value>
+		</init-param>
+		<init-param>
+			<param-name>codeCount</param-name>
+			<param-value>4</param-value>
+		</init-param>
+	</servlet>
+	<servlet>
+		<servlet-name>CheckEmailServlet</servlet-name>
+		<display-name>CheckEmailServlet</display-name>
+		<description></description>
+		<servlet-class>servlet.CheckEmailServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>MotifyPasswordServlet</servlet-name>
+		<display-name>MotifyPasswordServlet</display-name>
+		<description></description>
+		<servlet-class>servlet.MotifyPasswordServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>QQLoginServlet</servlet-name>
+		<display-name>QQLoginServlet</display-name>
+		<description></description>
+		<servlet-class>servlet.QQLoginServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>BindQQServlet</servlet-name>
+		<display-name>BindQQServlet</display-name>
+		<description></description>
+		<servlet-class>servlet.BindQQServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>VerifyCodeServlet</servlet-name>
+		<url-pattern>/VerifyCodeServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>CheckEmailServlet</servlet-name>
+		<url-pattern>/CheckEmailServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>MotifyPasswordServlet</servlet-name>
+		<url-pattern>/MotifyPasswordServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>QQLoginServlet</servlet-name>
+		<url-pattern>/QQLoginServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>BindQQServlet</servlet-name>
+		<url-pattern>/BindQQServlet</url-pattern>
+	</servlet-mapping>
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+</web-app>
