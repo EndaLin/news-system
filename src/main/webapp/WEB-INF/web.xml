@@ -4,6 +4,12 @@
 
 <web-app>
 	<display-name>Archetype Created Web Application</display-name>
+
+	<!--配置Quartz监听器-->
+	<listener>
+		<listener-class>service.DataBaseQuartzListener</listener-class>
+	</listener>
+
 	<servlet>
 		<servlet-name>VerifyCodeServlet</servlet-name>
 		<display-name>VerifyCodeServlet</display-name>
