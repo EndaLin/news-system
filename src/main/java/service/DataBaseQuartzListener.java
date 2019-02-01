@@ -41,7 +41,7 @@ public class DataBaseQuartzListener implements ServletContextListener {
              */
             Trigger trigger = TriggerBuilder.newTrigger()
                     .withIdentity("CronTrigger_1", "ConTriggerGroup")
-                    .withSchedule(CronScheduleBuilder.cronSchedule("*/5 * * * * ?"))
+                    .withSchedule(CronScheduleBuilder.cronSchedule("0 45 19 * * ? *"))
                     .startNow()
                     .build();
 

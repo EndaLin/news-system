@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Servlet Filter implementation class SetCharacterEncoding
@@ -47,7 +48,11 @@ public class SetCharacterEncoding implements Filter {
 
 		// pass the request along the filter chain
 		request.setCharacterEncoding("UTF-8");
-		response.setCharacterEncoding("UTF-8");
+		HttpServletResponse resp = (HttpServletResponse )response;
+		resp.setHeader("Access-Control-Allow-Origin", "*");
+		resp.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, DELETE");
+		resp.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
+		resp.setCharacterEncoding("UTF-8");
 		chain.doFilter(request, response);
 	}
 
