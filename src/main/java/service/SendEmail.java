@@ -8,7 +8,7 @@ public class SendEmail {
 	public static void send(String account,String address) {
 		try {
 			//编辑发送内容
-			String mess="http://localhost:8080/web/motifyPassword.jsp?account=" + account;
+			String mess="http://localhost:8080/modifyPassword.html?account=" + account;
 
 			//创建一个新对象
 			Email email = new SimpleEmail();

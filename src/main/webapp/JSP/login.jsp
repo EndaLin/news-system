@@ -23,8 +23,8 @@
 		<div class="form_2">
 		    <h3>登陆</h3>
 			<form action="./Login" method="post">
-					Username： <input type="text" name="form-username"/><br /><br />
-					Password: <input type="password" id="password" name="form-password"/><br /><br />
+					Username： <input type="text" name="username"/><br /><br />
+					Password: <input type="password" id="password" name="password"/><br /><br />
 					<input type="submit" value="login"/>
 					<a href="sendEmail.jsp">忘记密码</a>
 					<div style="color: red;" id="mess">${mess} ${mess = ""}</div>

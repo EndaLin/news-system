@@ -23,7 +23,11 @@ public class GetAllNewsServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        GetAllNewsFromDatabaseService getAllNewsFromDatabaseService = new GetAllNewsFromDatabaseService();
+        List<List<News>> list = getAllNewsFromDatabaseService.get2();
+        String result = JSONObject.toJSONString(list);
+        System.out.println(result);
+        response.getWriter().println(result);
     }
 
     @Override

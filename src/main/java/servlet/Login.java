@@ -14,7 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.alibaba.fastjson.JSONObject;
 import dao.DBConnection;
+import domain.Users;
 import service.Base64;
 import service.MD5;
 
@@ -52,54 +54,59 @@ public class Login extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String username = request.getParameter("form-username");
-		String form_password = request.getParameter("form-password");
+		String username = request.getParameter("username");
+		String form_password = request.getParameter("password");
+
+		System.out.println("user login:" + username);
 		String ischeck = null;
 		String sql = "select * from user where account like ?";
 		Connection con = DBConnection.getConnection();
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		HttpSession session = request.getSession();
+		String message = null;
+		Users user = new Users();
 		try {
 			byte[] resultBytes;
-			resultBytes = MD5.eccrypt(form_password);   //加密
+			//加密
+			resultBytes = MD5.eccrypt(form_password);
 			String msg = new String(resultBytes);
-			String password = Base64.getBase64(msg);  //修改编码
+			//修改编码
+			String password = Base64.getBase64(msg);
 			ps = con.prepareStatement(sql);
 			ps.setString(1, username);
 			rs = ps.executeQuery();
 			if (rs.next()) {
 				if (password.equals(rs.getString("password"))) {
 					if (rs.getString("ischeck").equals("1")) {
-						session.setAttribute("user", username);
-						session.setAttribute("status1", rs.getString("status"));
-						RequestDispatcher rd = request.getRequestDispatcher("/index.jsp");
-						rd.forward(request, response);
+						//session.setAttribute("user", username);
+						//session.setAttribute("status1", rs.getString("status"));
+//						RequestDispatcher rd = request.getRequestDispatcher("/index.jsp");
+//						rd.forward(request, response);
+						user.setAccount(username);
+						user.setStatus(rs.getString("status"));
+						response.getWriter().println(JSONObject.toJSONString(user));
 						return;
 					} else if (rs.getString("ischeck").equals("-1")){
+						message = "该账号已被停用！";
 						session.setAttribute("mess", "该账号已被停用！");
-						RequestDispatcher rd = request.getRequestDispatcher("/login.jsp");
-						rd.forward(request, response);
-						return;
 					} else {
+						message = "该账号正在审核中！";
 						session.setAttribute("mess", "该账号正在审核中！");
-						RequestDispatcher rd = request.getRequestDispatcher("/login.jsp");
-						rd.forward(request, response);
-						return;
 					}
 				} else {
+					message = "密码错误！";
 					session.setAttribute("mess", "密码错误！");
-					RequestDispatcher rd = request.getRequestDispatcher("/login.jsp");
-					rd.forward(request, response);
-					return;
 				}
 
 			} else {
+				message = "账号不存在";
 				session.setAttribute("mess", "账号不存在");
-				RequestDispatcher rd = request.getRequestDispatcher("/login.jsp");
-				rd.forward(request, response);
-				return;
 			}
+			response.getWriter().println(message);
+			/*RequestDispatcher rd = request.getRequestDispatcher("/login.jsp");
+			rd.forward(request, response);
+			return;*/
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

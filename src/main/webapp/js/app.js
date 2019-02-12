@@ -1,7 +1,8 @@
 var vm = new Vue({
-	el: ".frameTwo",
+	el: "#app",
 	data: {
-		allNew: []
+		allNew: [],
+		user: null
 	},
 	mounted() {
 		axios
@@ -11,11 +12,21 @@ var vm = new Vue({
 				this.allNew = data;
 			})
 			.catch(error => console.log(error))
+		if(islogin()) {
+			this.user = getUser();
+		} else {
+			this.user = ''
+		}
+		console.log(this.user)
 	},
 	methods: {
 		check: function(obj) {
 			console.log(obj.id);
-			location.replace("http://localhost:8080/showNews?id=" + obj.id);
+			location.replace("http://localhost:8080/showNew.html?id=" + obj.id);
+		},
+		logout: function() {
+			logout();
+			window.location = "index.html";
 		}
 	}
 })

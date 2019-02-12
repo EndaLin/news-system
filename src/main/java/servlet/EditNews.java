@@ -35,6 +35,7 @@ public class EditNews extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
@@ -43,6 +44,7 @@ public class EditNews extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		int id = 1;
@@ -50,8 +52,9 @@ public class EditNews extends HttpServlet {
 		String type = request.getParameter("type");
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
-		String author = (String) request.getSession().getAttribute("user");
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+		String author = request.getParameter("user");
+		//设置日期格式
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String time = df.format(new Date());
 		String sql = "insert into new values (?,?,?,?,?,?,?)";
 		String sql2 = "select max(nid) id from new";
@@ -75,10 +78,12 @@ public class EditNews extends HttpServlet {
 			ps.setString(6, type);
 			ps.setInt(7, ischeck);
 			ps.executeUpdate();
-			request.getSession().setAttribute("mess", "保存成功，审核通过后会给予发布！");
-			response.sendRedirect("./ueditor/editNew.jsp");
+			//request.getSession().setAttribute("mess", "保存成功，审核通过后会给予发布！");
+			//response.sendRedirect("./ueditor/editNew.jsp");
+			response.getWriter().println("保存成功，审核通过后会给予发布！");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			response.getWriter().println("发布失败，请检查服务器日志");
 			e.printStackTrace();
 		} finally {
 			DBConnection.free(con, ps, null);

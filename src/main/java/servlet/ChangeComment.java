@@ -37,6 +37,7 @@ public class ChangeComment extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
@@ -47,14 +48,15 @@ public class ChangeComment extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	@SuppressWarnings("unchecked")
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		int id = Integer.valueOf(request.getParameter("id"));
 		String step = request.getParameter("step");
-		HttpSession session = request.getSession();
-		ArrayList<Comment> list = (ArrayList<Comment>)session.getAttribute("clist");
+		String nid = request.getParameter("nid");
+		//HttpSession session = request.getSession();
+		//ArrayList<Comment> list = (ArrayList<Comment>)session.getAttribute("clist");
 		if (step.equals("1")) {
 			String content = request.getParameter("content");
 			String sql = "update comment set content = ? where cid = ?";
@@ -68,14 +70,7 @@ public class ChangeComment extends HttpServlet {
 				ps.setString(1, content);
 				ps.setInt(2, id);
 				ps.executeUpdate();
-				Comment c = new Comment(id, content, author, time, 0);
-				for(int i = 0;i < list.size();i++) {
-					if(list.get(i).getCid() == id) {
-						list.set(i, c);
-						break;
-					}
-				}
-				response.sendRedirect("/NewsSys/showNew.jsp");
+				response.sendRedirect("showNew.html?id=" + nid);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -91,13 +86,13 @@ public class ChangeComment extends HttpServlet {
 				ps = con.prepareStatement(sql);
 				ps.setInt(1, id);
 				ps.executeUpdate();
-				for (Iterator<Comment> iter = list.iterator(); iter.hasNext();)
-				{
-					Comment c = iter.next();
-					if(c.getCid() == id)
-						iter.remove();   //注意这个地方
-				}
-				response.sendRedirect("/NewsSys/showNew.jsp");
+//				for (Iterator<Comment> iter = list.iterator(); iter.hasNext();)
+//				{
+//					Comment c = iter.next();
+//					if(c.getCid() == id)
+//						iter.remove();   //注意这个地方
+//				}
+				response.sendRedirect("showNew.html?id=" + nid);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

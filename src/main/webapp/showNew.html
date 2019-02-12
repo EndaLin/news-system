@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>新闻展示</title>
+		<link rel="stylesheet" href="css/new_1.css" />
+	</head>
+
+	<body>
+		<div class="frameTop">
+			<img src="img/1.png" class="img_1">
+			<form action="" method="post">
+				<input type="text" class="form">
+			</form>
+			<img src="img/2.jpg" class="img_2" onclick="frmsubmit()">
+			<ul class="f_ul">
+				<a href="index.html">
+					<li>首页</li>
+				</a>
+			</ul>
+		</div>
+		<div id="app">
+			<div class="frameTwo">
+				<h3>{{title}}</h3>
+				<span class="title">作者：{{author}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{time}}</span>
+				<hr style="margin-top: 30px;">
+				<div v-html="content">{{content}}</div>
+				<hr style="margin-top: 30px;">
+			</div>
+			<form action="./AddComment" method="post" style="margin-top:350px;margin-left:600px;">
+				<h3>用户评论</h3>
+				<textarea clos="1500" rows="10" id="txt" name="content"></textarea>
+				<input type="hidden" name="user" v-bind:value="user.name" />
+				<input type="hidden" name="nid" v-bind:value="id" />
+				<input type="submit" value="评论" class="changePosition" v-if="user.name !== ''" />
+				<div style="color: red;" v-else>登陆后再评论</div>
+			</form>
+			<div style="margin-top:100px;margin-left:600px;">
+				<div v-for="p in comments">
+					{{p.author }}:
+					<form action="./ChangeComment" method="post">
+						<input type="text" v-bind:value="p.content" name="content" /> --发表于：{{p.time }}
+						<div v-if="p.ischange == 0 && p.author == user.name && user.status != '管理员'">
+							<input type="hidden" name="nid" v-bind:value="id" />
+							<input type="hidden" name="id" v-bind:value="p.cid " />
+							<input type="hidden" name="author" v-bind:value="p.author " />
+							<input type="hidden" name="time" v-bind:value="p.time " />
+							<input type="hidden" name="step" value="1" />
+							<input type="submit" value="修改">
+						</div>
+						<div v-if="user.status == '管理员' || p.author == user.name">
+							<input type="hidden" name="id" v-bind:value="p.cid " />
+							<input type="hidden" name="step" value="2" />
+							<input type="submit" value="删除">
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script src="js/axios.min.js"></script>
+	<script src="js/user.js"></script>
+	<script type="text/javascript">
+		function getQueryString(name) {
+			var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+			var r = window.location.search.substr(1).match(reg);
+			if(r != null) return unescape(r[2]);
+			return null;
+		}
+
+		var app = new Vue({
+			el: "#app",
+			data: {
+				user: {
+					name: '',
+					status: ''
+				},
+				id: '',
+				title: '',
+				author: '',
+				time: '',
+				content: '',
+				comments: []
+			},
+			mounted() {
+				var id = getQueryString("id");
+				if(id == null || id == '') {
+					return;
+				}
+				if(islogin()) {
+					var usernow = getUser();
+					this.user.name = usernow.name;
+					this.user.status = usernow.status;
+				}
+				axios({
+					method: "post",
+					url: "http://localhost:8080/showNews",
+					data: {
+						id: id
+					},
+					transformRequest: [function(data) {
+						// Do whatever you want to transform the data
+						let ret = ''
+						for(let it in data) {
+							// 如果要发送中文 编码 
+							ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+						}
+						return ret
+					}],
+					headers: {
+						'Content-Type': 'application/x-www-form-urlencoded'
+					}
+				}).then(response => {
+					var data = response.data
+					console.log(data)
+					this.id = data.id
+					this.title = data.title
+					this.author = data.author
+					this.time = data.time
+					this.content = data.content
+					this.comments = data.listComment
+				}).catch(error => console.log(error))
+			}
+		})
+	</script>
+
+</html>

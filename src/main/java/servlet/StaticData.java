@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.alibaba.fastjson.JSONObject;
 import dao.DBConnection;
 import domain.Static;
 
@@ -62,10 +64,10 @@ public class StaticData extends HttpServlet {
 		Connection con = DBConnection.getConnection();
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		ArrayList<Static> list1 = new ArrayList<Static>();
-		ArrayList<Static> list2 = new ArrayList<Static>();
+		ArrayList<Static> list1 = new ArrayList<>();
+		ArrayList<Static> list2 = new ArrayList<>();
 		String sql = "SELECT COUNT(nid) num, user.`account`\r\n" + 
-				"FROM user LEFT OUTER JOIN (SELECT * FROM new WHERE time BETWEEN ? AND ? )  a ON user.`account` LIKE a.`author`\r\n" + 
+				"FROM user LEFT OUTER JOIN (SELECT * FROM news.`new` WHERE time BETWEEN ? AND ? )  a ON user.`account` LIKE a.`author`\r\n" +
 				"WHERE user.`status` = 2\r\n" + 
 				"GROUP BY user.`account`\r\n" + 
 				"ORDER BY num DESC";
@@ -114,10 +116,15 @@ public class StaticData extends HttpServlet {
 				author = rs.getString("account");
 				list2.add(new Static(status, author, num));
 			}
-			HttpSession session = request.getSession();
-			session.setAttribute("slist1", list1);
-			session.setAttribute("slist2", list2);
-			request.getRequestDispatcher("/static.jsp").forward(request, response);		
+//			HttpSession session = request.getSession();
+//			session.setAttribute("slist1", list1);
+//			session.setAttribute("slist2", list2);
+//			request.getRequestDispatcher("/static.jsp").forward(request, response);
+			List<ArrayList<Static>> list = new ArrayList<>();
+			list.add(list1);
+			list.add(list2);
+			System.out.println(JSONObject.toJSONString(list));
+			response.getWriter().println(JSONObject.toJSONString(list));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

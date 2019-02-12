@@ -32,6 +32,7 @@ public class CheckNews extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
@@ -42,6 +43,7 @@ public class CheckNews extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
@@ -61,9 +63,11 @@ public class CheckNews extends HttpServlet {
 				ps.setInt(1, Integer.valueOf(id));
 				ps.executeUpdate();
 			}
-			RequestDispatcher rd = request.getRequestDispatcher("/showAllNews.jsp");
-			rd.forward(request, response);
+			//RequestDispatcher rd = request.getRequestDispatcher("/showAllNews.jsp");
+			//rd.forward(request, response);
+			response.getWriter().println("1");
 		} catch (Exception e) {
+			response.getWriter().println("0");
 			e.printStackTrace();
 		}   finally {
 			DBConnection.free(con, ps, null);

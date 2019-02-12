@@ -17,16 +17,16 @@ import javax.servlet.http.HttpSession;
 import dao.DBConnection;
 
 /**
- * Servlet implementation class MotifyNews
+ * Servlet implementation class ModifyNews
  */
-@WebServlet("/MotifyNews")
-public class MotifyNews extends HttpServlet {
+@WebServlet("/ModifyNews")
+public class ModifyNews extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public MotifyNews() {
+	public ModifyNews() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -34,6 +34,7 @@ public class MotifyNews extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doPost(request, response);
@@ -42,6 +43,7 @@ public class MotifyNews extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String step = request.getParameter("step");
@@ -71,7 +73,8 @@ public class MotifyNews extends HttpServlet {
 				sql = "update new set title=?, content=?, time=?, ischeck=? where nid =?";
 				title = request.getParameter("title");
 				content = request.getParameter("content");
-				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+				//设置日期格式
+				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				String time = df.format(new Date());
 				ps = con.prepareStatement(sql);
 				ps.setString(1, title);
@@ -80,8 +83,9 @@ public class MotifyNews extends HttpServlet {
 				ps.setString(4, "0");
 				ps.setInt(5, Integer.valueOf(id));
 				ps.executeUpdate();
-				session.setAttribute("mess", "修改成功！待审核后便可发布");
-				response.sendRedirect("./ueditor/motifyNew.jsp");
+				//session.setAttribute("mess", "修改成功！待审核后便可发布");
+				//response.sendRedirect("./ueditor/motifyNew.jsp");
+				response.getWriter().println("修改成功！待审核后便可发布");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

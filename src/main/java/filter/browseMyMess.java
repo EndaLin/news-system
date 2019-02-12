@@ -40,6 +40,7 @@ public class browseMyMess implements Filter {
 	/**
 	 * @see Filter#destroy()
 	 */
+	@Override
 	public void destroy() {
 		// TODO Auto-generated method stub
 	}
@@ -47,6 +48,7 @@ public class browseMyMess implements Filter {
 	/**
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
+	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		// TODO Auto-generated method stub
 		// place your code here
@@ -58,20 +60,23 @@ public class browseMyMess implements Filter {
         ResultSet rs = null;
         HttpServletRequest hsr = (HttpServletRequest) request;
         HttpSession session = hsr.getSession();
-        String status = null; //Éí·İ
+		//èº«ä»½
+        String status = null;
         String sex = null;
-        String path = null;  //Í·ÏñµÄĞéÄâµØÖ·
+		//å¤´åƒçš„è™šæ‹Ÿåœ°å€
+        String path = null;
           try {
 			ps = con.prepareStatement(sql);
 			ps.setString(1, (String) hsr.getSession().getAttribute("user"));
 			rs = ps.executeQuery();
 			while(rs.next()) {
 				switch(rs.getString("status")) {
-					case "1" : status = "¹ÜÀíÔ±";break;
-					case "2" : status = "ĞÂÎÅ·¢²¼Ô±";break;
-					case "3" : status = "ÆÕÍ¨ÓÃ»§";break;
+					case "1" : status = "ç®¡ç†å‘˜";break;
+					case "2" : status = "æ–°é—»å‘å¸ƒå‘˜";break;
+					case "3" : status = "æ™®é€šç”¨æˆ·";break;
+					default:break;
 				}
-				sex = rs.getString("status").equals("0") ? "ÄĞ" : "Å®";
+				sex = rs.getString("sex").equals("0") ? "ç”·" : "å¥³";
 				path =  rs.getString("path") == null ? "default.png" : rs.getString("path");
 			}
 			//System.out.println("face\\" + path);

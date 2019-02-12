@@ -32,6 +32,7 @@ public class changeIsCheck extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doPost(request, response);
@@ -40,10 +41,11 @@ public class changeIsCheck extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		String account = request.getParameter("account");
 	    int ischeck = Integer.valueOf(request.getParameter("check"));
-	    String account = request.getParameter("account");
 	    Connection con = DBConnection.getConnection();
 	    PreparedStatement ps = null;
 	    String sql = "update user set ischeck = ? where account like ?";
@@ -52,10 +54,11 @@ public class changeIsCheck extends HttpServlet {
 			ps.setInt(1, ischeck);
 			ps.setString(2, account);
 			ps.executeUpdate();
-			RequestDispatcher rd = request.getRequestDispatcher("/showAllUsers.jsp");
-			rd.forward(request, response);
+			response.getWriter().println("1");
+			//RequestDispatcher rd = request.getRequestDispatcher("/showAllUsers.jsp");
+			//rd.forward(request, response);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			response.getWriter().println("-1");
 			e.printStackTrace();
 		} finally {
 			DBConnection.free(con, ps, null);

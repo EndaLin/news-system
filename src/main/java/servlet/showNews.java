@@ -1,4 +1,4 @@
-package filter;
+package servlet;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -16,8 +17,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.fastjson.JSONObject;
 import dao.DBConnection;
 import domain.Comment;
+import domain.Content;
 
 /**
  * Servlet implementation class showNews
@@ -37,6 +40,7 @@ public class showNews extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doPost(request, response);
@@ -45,6 +49,7 @@ public class showNews extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		int id = Integer.valueOf(request.getParameter("id"));
@@ -60,7 +65,7 @@ public class showNews extends HttpServlet {
 		Connection con = DBConnection.getConnection();
 		PreparedStatement ps = null, ps2 = null;
 		ResultSet rs = null;
-		ArrayList<Comment> list = new ArrayList<Comment>();
+		List<Comment> list = new ArrayList<>();
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date that_time = null;
 		Date now_Time = null;
@@ -76,11 +81,17 @@ public class showNews extends HttpServlet {
 				time = rs.getString("time");
 				content = rs.getString("content");
 			}
-			((HttpServletRequest) request).getSession().setAttribute("this_id", id);
-			((HttpServletRequest) request).getSession().setAttribute("this_title", title);
-			((HttpServletRequest) request).getSession().setAttribute("this_author", author);
-			((HttpServletRequest) request).getSession().setAttribute("this_time", time);
-			((HttpServletRequest) request).getSession().setAttribute("this_content", content);
+//			((HttpServletRequest) request).getSession().setAttribute("this_id", id);
+//			((HttpServletRequest) request).getSession().setAttribute("this_title", title);
+//			((HttpServletRequest) request).getSession().setAttribute("this_author", author);
+//			((HttpServletRequest) request).getSession().setAttribute("this_time", time);
+//			((HttpServletRequest) request).getSession().setAttribute("this_content", content);
+			Content content1 = new Content();
+			content1.setId(String.valueOf(id));
+			content1.setTitle(title);
+			content1.setTime(time);
+			content1.setAuthor(author);
+			content1.setContent(content);
 			//获取文章下面的评论
 			ps = con.prepareStatement(sql2);
 			ps.setInt(1, id);
@@ -104,9 +115,12 @@ public class showNews extends HttpServlet {
 				}
 				list.add(new Comment(cid, content, author, time, ischange));
 			}
-			((HttpServletRequest) request).getSession().setAttribute("clist", list);
-			RequestDispatcher rd = request.getRequestDispatcher("/showNew.jsp");
-			rd.forward(request, response);
+			//((HttpServletRequest) request).getSession().setAttribute("clist", list);
+			//RequestDispatcher rd = request.getRequestDispatcher("/showNew.jsp");
+			//rd.forward(request, response);
+			content1.setListComment(list);
+			System.out.println(JSONObject.toJSONString(content1));
+			response.getWriter().println(JSONObject.toJSONString(content1));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

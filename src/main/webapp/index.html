@@ -5,11 +5,11 @@
 		<meta charset="UTF-8">
 		<title>人民网</title>
 		<link rel="stylesheet" href="css/index.css" />
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 	</head>
 
 	<body>
-
-		<body>
+		<div id="app">
 			<div class="frameTop">
 				<img src="img/1.png" class="img_1">
 				<form action="" method="post">
@@ -17,32 +17,32 @@
 				</form>
 				<img src="img/2.jpg" class="img_2" onclick="frmsubmit()">
 				<ul class="f_ul">
-					<a href="index.jsp">
+					<a href="index.html">
 						<li>首页</li>
 					</a>
-					<c:if test="${user == null }">
-						<a href="login.jsp">
+					<div v-if="user === ''">
+						<a href="login.html">
 							<li>登陆</li>
 						</a>
-						<a href="register.jsp">
+						<a href="register.html">
 							<li>注册</li>
 						</a>
-					</c:if>
-					<c:if test="${user != null }">
-						<a href="showMess.jsp">
-							<li>${user}</li>
+					</div>
+					<div v-else>
+						<a href="showMess.html">
+							<li>{{user.name}}</li>
 						</a>
-						<a href="./Logout">
-							<li>注銷</li>
+						<a href="javascript:void(0);">
+							<li @click="logout">注销</li>
 						</a>
-					</c:if>
+					</div>
 				</ul>
 			</div>
 			<div class="frameTwo">
 				<div class="new_1">
 					<div class="top_1">国际</div>
 					<div class="top_2">
-						<a href="#">更多</a>
+						<a href="javascript:void(0);">更多</a>
 					</div>
 					<ul class="f_new_ul">
 						<li v-for="news in allNew[0]">
@@ -62,7 +62,7 @@
 					</div>
 					<ul class="f_new_ul">
 						<li v-for="news in allNew[1]">
-							{{news.title}}
+							<a v-on:click="check(news)" href="javascript:void(0);">{{news.title}}</a>
 						</li>
 					</ul>
 					<ul class="f_new_u2">
@@ -78,7 +78,7 @@
 					</div>
 					<ul class="f_new_ul">
 						<li v-for="news in allNew[2]">
-							{{news.title}}
+							<a v-on:click="check(news)" href="javascript:void(0);">{{news.title}}</a>
 						</li>
 					</ul>
 					<ul class="f_new_u2">
@@ -94,7 +94,7 @@
 					</div>
 					<ul class="f_new_ul">
 						<li v-for="news in allNew[3]">
-							{{news.title}}
+							<a v-on:click="check(news)" href="javascript:void(0);">{{news.title}}</a>
 						</li>
 					</ul>
 					<ul class="f_new_u2">
@@ -107,9 +107,10 @@
 			<div class="frameThree">
 				<hr /> Copyright @ 2006-2015 renming.com All Rights Reserved. 人民网 版权所有 <br />京ICP证120085号 京ICP备16004154号 京网文[2012]0620-206号 <br />京公网安备 11011202000608号
 			</div>
-		</body>
-		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-		<script src="js/axios.min.js"></script>
-		<script src="js/app.js"></script>
+		</div>
+	</body>
+	<script src="js/axios.min.js"></script>
+	<script src="js/user.js"></script>
+	<script src="js/app.js"></script>
 
 </html>

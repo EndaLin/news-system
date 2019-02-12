@@ -37,6 +37,7 @@ public class AddComment extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doPost(request, response);
@@ -45,21 +46,24 @@ public class AddComment extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String content = request.getParameter("content"); 
-		HttpSession session = request.getSession();
-		String author = (String) session.getAttribute("user");
+		//HttpSession session = request.getSession();
+		//String author = (String) session.getAttribute("user");
+		String author = request.getParameter("user");
 		int nid = Integer.valueOf(request.getParameter("nid"));
 		int id = 1;
-	    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置时间格式
+		//设置时间格式
+	    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	    String time = df.format(new Date());
 	    String sql = "select max(cid) id from comment";
 	    String sql2 = "insert into comment values (?,?,?,?,?,?)";
 	    Connection con = DBConnection.getConnection();
 	    PreparedStatement ps = null;
 	    ResultSet rs = null;
-        ArrayList<Comment> list = (ArrayList<Comment>)session.getAttribute("clist");
+       // ArrayList<Comment> list = (ArrayList<Comment>)session.getAttribute("clist");
 	    try {
 			ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
@@ -74,9 +78,9 @@ public class AddComment extends HttpServlet {
 			ps.setInt(5, nid);
 			ps.setInt(6, 0);
 			ps.executeUpdate();
-			list.add(new Comment(id, content, author, time, 0));
-			session.setAttribute("clist", list);
-			response.sendRedirect("/NewsSys/showNew.jsp");
+			//list.add(new Comment(id, content, author, time, 0));
+			//session.setAttribute("clist", list);
+			response.sendRedirect("showNew.html?id=" + nid);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

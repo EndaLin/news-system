@@ -51,7 +51,7 @@ public class SetCharacterEncoding implements Filter {
 		HttpServletResponse resp = (HttpServletResponse )response;
 		resp.setHeader("Access-Control-Allow-Origin", "*");
 		resp.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, DELETE");
-		resp.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
+		resp.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type, X-Requested-With");
 		resp.setCharacterEncoding("UTF-8");
 		chain.doFilter(request, response);
 	}

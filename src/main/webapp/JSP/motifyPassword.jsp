@@ -50,7 +50,7 @@
          	var password = $("#password").attr("value")
          	$.ajax({
          		type:"post",
-				url:"./MotifyPasswordServlet",
+				url:"./ModifyPasswordServlet",
 				traditional : false,
 				data:{
 					"account" : account,

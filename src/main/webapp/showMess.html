@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>管理界面</title>
+		<link href="css/normalUser.css" rel="stylesheet" type="text/css">
+	</head>
+
+	<body>
+		<div class="frameTop">
+			<img src="img/1.png" class="img_1">
+			<form action="" method="post">
+				<input type="text" class="form">
+			</form>
+			<img src="img/2.jpg" class="img_2" onclick="frmsubmit()">
+			<ul class="f_ul">
+				<a href="index.html">
+					<li>首页</li>
+				</a>
+			</ul>
+		</div>
+		<div class="middle" id="app">
+			<div class="left">
+				<div class="show_info">
+					<a href="showMess.html">显示个人信息</a>
+				</div>
+				<div class="alter_info">
+					<a href="modifyMess.html">修改个人信息</a>
+				</div>
+				<div v-if="user.status === '管理员'">
+					<div>
+						<a href="showAllUsers.html">审查用户</a>
+					</div>
+					<div>
+						<a href="showAllNews.html">审查新闻</a>
+					</div>
+					<div>
+						<a href="static.html">统计</a>
+					</div>
+					<div>
+						<a href="StaticOfYear.html">全年数据统计(评论)</a>
+					</div>
+					<div>
+						<a href="StaticOfYear2.html">全年数据统计(新闻)</a>
+					</div>
+				</div>
+				<div v-if="user.status === '新闻发布员'">
+					<div>
+						<a href="showMyNews.html">新闻管理</a>
+					</div>
+					<div>
+						<a href="./ueditor/editNew.html">新闻发表</a>
+					</div>
+				</div>
+			</div>
+			<div class="right">
+				<div class="info">
+					用户类型：{{user.status }} <br /> 用户名： {{user.name}} <br /> 头像
+					<div class="head">
+						<img v-bind:src="user.path" height="200px" width="200px" />
+					</div>
+					注册时间：2016-6-6 6：16:16<br /> 性别：男 <br /> 爱好：小明
+				</div>
+			</div>
+		</div>
+		<div style="clear: both"></div>
+		<hr />
+		<div class="copyright">
+			Copyright @ 2006-2015 renming.com All Rights Reserved. 人民网 版权所有 <br />京ICP证120085号 京ICP备16004154号 京网文[2012]0620-206号 <br />京公网安备 11011202000608号
+		</div>
+	</body>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script src="js/axios.min.js"></script>
+	<script src="js/user.js"></script>
+	<script type="text/javascript">
+		var app = new Vue({
+			el: "#app",
+			data: {
+				user: {
+					name: 'wt',
+					status: '1',
+					sex: '男',
+					path: './img/default.jpg'
+				}
+			},
+			mounted() {
+				if(islogin()) {
+					var usernow = getUser();
+					this.user.name = usernow.name;
+					this.user.status = usernow.status;
+				} else {
+					window.location = "login.html";
+				}
+				axios({
+					method: "post",
+					url: "http://localhost:8080/GetPersonalMessageServlet",
+					data: {
+						name: this.user.name
+					},
+					transformRequest: [function(data) {
+						// Do whatever you want to transform the data
+						let ret = ''
+						for(let it in data) {
+							// 如果要发送中文 编码 
+							ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+						}
+						return ret
+					}],
+					headers: {
+						'Content-Type': 'application/x-www-form-urlencoded'
+					}
+				}).then(response => {
+					console.log(response.data)
+					if(response.data != null && response.data.path !== "default.png") {
+						this.user.path = response.data.path
+					}
+				})
+			}
+		})
+	</script>
+
+</html>
