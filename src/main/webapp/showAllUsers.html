@@ -72,9 +72,9 @@
 					</div>
 					<br />
 				</div>
-				<form action="" id="uploadForm" enctype="multipart/form-data" style="margin-top: -50px;">
+				<form action="http://localhost:8080/SaveMessageFromExcelServlet" id="uploadForm" enctype="multipart/form-data" style="margin-top: -50px;" method="post">
 					<input type="file" name="file" /><br />
-					<button id="submit_file">批量添加用户</button>
+					<input type="submit" id="submit_file" value="批量添加用户"/>
 				</form>
 			</div>
 			<div style="clear: both"></div>
@@ -89,25 +89,25 @@
 	<script src="js/axios.min.js"></script>
 	<script src="js/user.js"></script>
 	<script type="text/javascript">
-		$("#submit_file").click(function() {
-			$.ajax({
-				type: "post",
-				url: "./SaveMessageFromExcelServlet",
-				async: true,
-				dataType: "text",
-				data: new FormData($('#uploadForm')[0]),
-				processData: false,
-				contentType: false,
-				success: function() {
-					alert("上传成功");
-				},
-				error: function(XMLHttpRequest, textStatus, errorThrown) {
-					console.log(XMLHttpRequest.status)
-					console.log(textStatus)
-					console.log(errorThrown)
-				}
-			});
-		});
+//		$("#submit_file").click(function() {
+//			$.ajax({
+//				type: "post",
+//				url: "http://localhost:8080/SaveMessageFromExcelServlet",
+//				async: true,
+//				dataType: "text",
+//				data: new FormData($('#uploadForm')[0]),
+//				processData: false,
+//				contentType: false,
+//				success: function() {
+//					alert("上传成功");
+//				},
+//				error: function(XMLHttpRequest, textStatus, errorThrown) {
+//					console.log(XMLHttpRequest.status)
+//					console.log(textStatus)
+//					console.log(errorThrown)
+//				}
+//			});
+//		});
 
 		var app = new Vue({
 			el: "#info",

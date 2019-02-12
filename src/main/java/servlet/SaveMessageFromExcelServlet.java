@@ -27,7 +27,6 @@ public class SaveMessageFromExcelServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         boolean isExcel2003 = false;
-        String type = null;
         // 检测是否为多媒体上传
         if (!ServletFileUpload.isMultipartContent(request)) {
             // 如果不是则停止
@@ -46,10 +45,6 @@ public class SaveMessageFromExcelServlet extends HttpServlet {
             @SuppressWarnings("unchecked")
             List<FileItem> formItems = upload.parseRequest(request);
             for (FileItem item : formItems) {
-                if (item.isFormField()) {
-                    // 获取请求来源
-                    type = item.getString();
-                }
                 if (!item.isFormField()) {
                     System.out.println("文件上传！");
                     String fileName = item.getName();
@@ -67,8 +62,8 @@ public class SaveMessageFromExcelServlet extends HttpServlet {
                     String prefix = fileName.substring(fileName.lastIndexOf(".") + 1);
 
                     if (!"xlsx".equals(prefix) && !"xls".equals(prefix)) {
-                        request.getSession().setAttribute("mess", "错误：上传的文件格式错误！请上传Excel表格");
-                        request.getRequestDispatcher(type).forward(request, response);
+                        System.out.println( "错误：上传的文件格式错误！请上传Excel表格");
+                        request.getRequestDispatcher("showAllUsers.html").forward(request, response);
                         return;
                     }
 
@@ -91,12 +86,12 @@ public class SaveMessageFromExcelServlet extends HttpServlet {
                 }
             }
             System.out.println("success");
-            response.getWriter().println("success");
+            request.getRequestDispatcher("showAllUsers.html").forward(request, response);
 
         } catch (Exception e) {
-            request.getSession().setAttribute("message", "error" + e.getMessage());
+            e.printStackTrace();
         } finally {
-            request.getRequestDispatcher(type).forward(request, response);
+            request.getRequestDispatcher("showAllUsers.html").forward(request, response);
         }
     }
 
