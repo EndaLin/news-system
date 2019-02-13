@@ -9,14 +9,15 @@ a {
 }
 
 .img_1 {
-	margin-left: 450px;
+	margin-left: 40%;
 	float: left;
 }
 
 .form {
 	float: left;
-	margin-left: 200px;
-	margin-top: 150px;
+	position: relative;
+	top: 55%;
+	left: 48%;
 }
 
 .img_2 {
@@ -44,7 +45,7 @@ a {
 }
 
 .frameTwo {
-	width: 1000px;
+	width: 100%;
 	height: 800px;
 	margin-top: 80px;
 	margin-left: auto;
@@ -100,11 +101,15 @@ a {
 }
 
 .frameThree {
-	width: 950px;
+	width: 100%;
 	height: 300px;
-	margin-top: -250px;
+	margin-top: 3%;
 	margin-left: auto;
 	margin-right: auto;
 	text-align: center;
 	line-height: 30px;
+}
+
+.frameTwo table {
+	width: 300px;
 }

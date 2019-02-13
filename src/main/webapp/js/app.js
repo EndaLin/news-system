@@ -2,7 +2,10 @@ var vm = new Vue({
 	el: "#app",
 	data: {
 		allNew: [],
-		user: null
+		user: {
+			name: '',
+			status: ''
+		}
 	},
 	mounted() {
 		axios
@@ -15,7 +18,7 @@ var vm = new Vue({
 		if(islogin()) {
 			this.user = getUser();
 		} else {
-			this.user = ''
+			this.user.name = ''
 		}
 		console.log(this.user)
 	},

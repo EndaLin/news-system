@@ -54,7 +54,10 @@ var form = new Vue({
 	},
 	methods: {
 		submitForm: function() {
-
+			//let loadingInstance = Loading.service(options);
+			//this.$nextTick(() => { // 以服务的方式调用的 Loading 需要异步关闭
+			//loadingInstance.close();
+			//});
 			if(this.username == "" || this.password == "") {
 				this.errors = "账号和密码不能为空"
 				return
