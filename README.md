@@ -7,3 +7,4 @@
 - [Vue.js中文官方文档](https://cn.vuejs.org/v2/guide/)  
 - [Form Data 和 Request Payload 区别](https://www.cnblogs.com/zourong/p/7340498.html)
 - [Axios官方中文文档](https://www.kancloud.cn/yunye/axios/234845)
+- [Highcharts](https://www.highcharts.com/)

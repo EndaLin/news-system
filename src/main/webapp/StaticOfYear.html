@@ -56,19 +56,22 @@
 				</div>
 			</div>
 			<div class="right">
-				<div class="info">
+				<!--<div class="info">
 					年份&emsp;&emsp;月份&emsp;&emsp;评论数目<br />
 					<div v-for="item in items">
 						{{item.year }}&emsp;&emsp;{{item.month }}&emsp;&emsp;{{item.num}}
 						<br />
 					</div>
 					<br /> 当前页数 : 1 / 1
-				</div>
+				</div>-->
+				<div id="container" style="width: 550px; height: 400px; margin: 0 auto"></div>
 			</div>
 		</div>
 		<div style="clear: both"></div>
 		<hr />
 	</body>
+	<script src="js/jquery-3.3.1.min.js"></script>
+	<script src="highcharts-7.0.3/highcharts.js"></script>
 	<script src="js/axios.min.js"></script>
 	<script src="js/user.js"></script>
 	<script type="text/javascript">
@@ -81,7 +84,9 @@
 					status: '1',
 					sex: '男',
 					path: './img/default.jpg'
-				}
+				},
+				month: [],
+				num: []
 			},
 			mounted() {
 				if(islogin()) {
@@ -96,7 +101,61 @@
 					url: "http://localhost:8080/StaticOfYear"
 				}).then(response => {
 					console.log(response.data);
-					this.items = response.data
+					data = response.data;
+					for(var i = 0; i < data.length; i++) {
+						var time = data[i].year + '.' + data[i].month;
+						this.month.push(time);
+						this.num.push(data[i].num);
+					}
+					console.log(this.month)
+					console.log(this.num)
+					var title = {
+						text: '全年评论数目概况'
+					};
+					var subtitle = {
+						text: '新闻管理系统'
+					};
+					var xAxis = {
+						categories: this.month
+					};
+					var yAxis = {
+						title: {
+							text: '单位：个'
+						},
+						plotLines: [{
+							value: 0,
+							width: 1,
+							color: '#808080'
+						}]
+					};
+
+					var tooltip = {
+						valueSuffix: '\xB0C'
+					}
+
+					var legend = {
+						layout: 'vertical',
+						align: 'right',
+						verticalAlign: 'middle',
+						borderWidth: 0
+					};
+
+					var series = [{
+						name: '月内数目',
+						data: this.num
+					}];
+
+					var json = {};
+
+					json.title = title;
+					json.subtitle = subtitle;
+					json.xAxis = xAxis;
+					json.yAxis = yAxis;
+					json.tooltip = tooltip;
+					json.legend = legend;
+					json.series = series;
+
+					$('#container').highcharts(json);
 				})
 			}
 		})

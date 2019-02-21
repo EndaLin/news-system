@@ -56,19 +56,22 @@
 				</div>
 			</div>
 			<div class="right">
-				<div class="info">
+				<!--<div class="info">
 					年份&emsp;&emsp;月份&emsp;&emsp;新闻数目<br />
 					<div v-for="item in items">
 						{{item.year }}&emsp;&emsp;{{item.month }}&emsp;&emsp;{{item.num}}
 						<br />
 					</div>
 					<br /> 当前页数 : 1 / 1
-				</div>
+				</div>-->
+				<div id="container" style="width: 550px; height: 400px; margin: 0 auto"></div>
 			</div>
 		</div>
 		<div style="clear: both"></div>
 		<hr />
 	</body>
+	<script src="js/jquery-3.3.1.min.js"></script>
+	<script src="highcharts-7.0.3/highcharts.js"></script>
 	<script src="js/axios.min.js"></script>
 	<script src="js/user.js"></script>
 	<script type="text/javascript">
@@ -81,7 +84,9 @@
 					status: '1',
 					sex: '男',
 					path: './img/default.jpg'
-				}
+				},
+				month: [],
+				num: []
 			},
 			mounted() {
 				if(islogin()) {
@@ -96,7 +101,72 @@
 					url: "http://localhost:8080/StaticOfYear2Servlet"
 				}).then(response => {
 					console.log(response.data);
-					this.items = response.data
+					//this.items = response.data;
+					data = response.data;
+					for(var i = 0; i < data.length; i++) {
+						var time = data[i].year + '.' + data[i].month;
+						this.month.push(time);
+						this.num.push(data[i].num);
+					}
+					console.log(this.month)
+					console.log(this.num)
+					var chart = {
+						type: 'column'
+					};
+					var title = {
+						text: '一年内新闻发布的数目概览'
+					};
+					var subtitle = {
+						text: '来源：数据库统计'
+					};
+					var xAxis = {
+						categories: this.month,
+						crosshair: true
+					};
+					var yAxis = {
+						plotLines: [{
+							value: 0,
+							width: 1,
+							color: '#808080'
+						}],
+						title: {
+							text: '单位：个'
+						}
+					};
+					var tooltip = {
+						headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+						pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+							'<td style="padding:0"><b>{point.y:.1f} 个</b></td></tr>',
+						footerFormat: '</table>',
+						shared: true,
+						useHTML: true
+					};
+					var plotOptions = {
+						column: {
+							pointPadding: 0.2,
+							borderWidth: 0
+						}
+					};
+					var credits = {
+						enabled: false
+					};
+
+					var series = [{
+						name: '月内总数',
+						data: this.num
+					}];
+
+					var json = {};
+					json.chart = chart;
+					json.title = title;
+					json.subtitle = subtitle;
+					json.tooltip = tooltip;
+					json.xAxis = xAxis;
+					json.yAxis = yAxis;
+					json.series = series;
+					json.plotOptions = plotOptions;
+					json.credits = credits;
+					$('#container').highcharts(json);
 				})
 			}
 		})
