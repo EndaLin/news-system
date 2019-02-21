@@ -139,7 +139,7 @@
 								console.log(this.listNews[index])
 								this.listNews[index].ischeck = '1'
 							} else {
-								this.listNews[index].splice(index);
+								this.listNews.splice(index, 1);
 							}
 						} else {
 							alert("服务器错误，修改失败")
