@@ -60,10 +60,10 @@ public class StaticOfYear2Servlet extends HttpServlet {
                 list.get(i).setMonth(month2);
             }
         }
-        String sql = "SELECT COUNT(nid) num, YEAR(a.time) year, MONTH(a.time) month\r\n" +
-                "FROM user LEFT OUTER JOIN (SELECT * FROM new WHERE time BETWEEN ? AND ? )  a ON user.`account` LIKE a.`author`\r\n" +
-                "GROUP BY YEAR(a.time), MONTH(a.time)\r\n" +
-                "ORDER BY num DESC";
+        String sql = "SELECT COUNT(nid) num, YEAR(a.time) YEAR, MONTH(a.time) MONTH\n" +
+                "                FROM (SELECT * FROM new WHERE TIME BETWEEN ? AND ? ) a\n" +
+                "                GROUP BY YEAR(a.time), MONTH(a.time)\n" +
+                "                ORDER BY num DESC";
         Connection con = DBConnection.getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
